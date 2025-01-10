@@ -1,5 +1,7 @@
 package com.equity4profit.liveupdateservice.liveprice;
 
+import java.util.Objects;
+
 public class LivePriceResponse {
 
     private String symbol;
@@ -24,5 +26,17 @@ public class LivePriceResponse {
 
     public void setLtp(Double ltp) {
         this.ltp = ltp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LivePriceResponse that)) return false;
+        return Objects.equals(getSymbol(), that.getSymbol());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSymbol());
     }
 }

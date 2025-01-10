@@ -3,6 +3,7 @@ package com.equity4profit.liveupdateservice.liveprice.groww;
 import com.equity4profit.liveupdateservice.exception.LiveUpdateException;
 import com.equity4profit.liveupdateservice.liveprice.LivePriceResponse;
 import com.equity4profit.liveupdateservice.liveprice.LivePriceService;
+import com.equity4profit.liveupdateservice.liveprice.zerodha.ZerodhaLivePriceService;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +28,7 @@ import static com.equity4profit.liveupdateservice.liveprice.groww.GrowwModels.Ex
 public class GrowLivePriceService implements LivePriceService {
     private static final String NSE_SYMBOL = "NSE";
     private static final String BSE_SYMBOL = "BSE";
+    private static final String SET_COOKIE_HEADER = "Set-Cookie";
     private static final int GET_RESULT_LIMIT = 40;
     private static final String LIVE_PRICE_GROWW_POST_URL = "https://groww.in/v1/api/stocks_data/v1/tr_live_delayed/segment/CASH/latest_aggregated";
     private static final HttpHeaders HTTP_HEADERS = new HttpHeaders() {{
@@ -81,7 +83,7 @@ public class GrowLivePriceService implements LivePriceService {
         HttpEntity<ExchangeAggReqMap> httpEntity = new HttpEntity<>(exchangeAggReqMap, HTTP_HEADERS);
         ResponseEntity<ExchangeAggResp> responseEntity = restTemplate.postForEntity(LIVE_PRICE_GROWW_POST_URL, httpEntity, ExchangeAggResp.class);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            addCookie(responseEntity.getHeaders().get("Set-Cookie"));
+            addCookie(responseEntity.getHeaders().get(SET_COOKIE_HEADER));
             responseEntity.getBody().getExchangeAggRespMap().forEach((s, exchangeInfo) -> {
                 exchangeInfo.getPriceLivePointsMap().forEach((s1, growPriceLivePoint) -> livePriceResponses.add(new LivePriceResponse(growPriceLivePoint.symbol, growPriceLivePoint.ltp)));
             });
