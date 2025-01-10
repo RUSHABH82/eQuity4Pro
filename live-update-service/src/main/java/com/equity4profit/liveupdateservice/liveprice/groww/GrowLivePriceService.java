@@ -8,11 +8,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -24,8 +22,8 @@ import java.util.concurrent.Executors;
 import static com.equity4profit.liveupdateservice.liveprice.groww.GrowwModels.ExchangeAggReqMap;
 import static com.equity4profit.liveupdateservice.liveprice.groww.GrowwModels.ExchangeAggResp;
 
-@RestController
-@RequestMapping("groww")
+
+@Service
 public class GrowLivePriceService implements LivePriceService {
     private static final String NSE_SYMBOL = "NSE";
     private static final String BSE_SYMBOL = "BSE";
@@ -48,7 +46,6 @@ public class GrowLivePriceService implements LivePriceService {
     }
 
     @Override
-    @PostMapping("live")
     public List<LivePriceResponse> getLivePriceResponses(@RequestBody List<String> symbols) throws LiveUpdateException {
         try {
             List<LivePriceResponse> livePriceResponses = new ArrayList<>();
