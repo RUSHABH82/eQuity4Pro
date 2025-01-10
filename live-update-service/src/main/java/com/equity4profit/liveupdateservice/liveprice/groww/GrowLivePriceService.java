@@ -35,7 +35,6 @@ public class GrowLivePriceService implements LivePriceService {
         add("Content-Type", "application/json");
     }};
     private final RestTemplate restTemplate = new RestTemplate();
-    ExecutorService executor = Executors.newFixedThreadPool(8);
 
     static void addCookie(List<String> rowCookie) {
         if (CollectionUtils.isEmpty(rowCookie)) return;
