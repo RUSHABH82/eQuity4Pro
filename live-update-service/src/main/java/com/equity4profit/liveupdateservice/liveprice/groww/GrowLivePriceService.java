@@ -3,7 +3,6 @@ package com.equity4profit.liveupdateservice.liveprice.groww;
 import com.equity4profit.liveupdateservice.exception.LiveUpdateException;
 import com.equity4profit.liveupdateservice.liveprice.LivePriceResponse;
 import com.equity4profit.liveupdateservice.liveprice.LivePriceService;
-import com.equity4profit.liveupdateservice.liveprice.zerodha.ZerodhaLivePriceService;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

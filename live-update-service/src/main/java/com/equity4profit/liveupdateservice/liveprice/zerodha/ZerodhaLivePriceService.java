@@ -39,6 +39,21 @@ public class ZerodhaLivePriceService implements LivePriceService {
         HTTP_HEADERS.remove("Cookie");
     }
 
+    public static Set<String> getNifty500Symbols() {
+        if (NIFTY500_SYMBOLS.isEmpty()) {
+            String url = UriComponentsBuilder.fromUriString(LIVE_PRICE_ZERODHA_NIFTY500)
+                    .toUriString();
+            ResponseEntity<ZerodhaModels.ZerodhaConstituentsResponse> responseEntity =
+                    new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(HTTP_HEADERS), ZerodhaModels.ZerodhaConstituentsResponse.class);
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                addCookie(responseEntity.getHeaders().get(SET_COOKIE_HEADER));
+                responseEntity.getBody().getData().getConstituents().forEach(data -> NIFTY500_SYMBOLS.add(data.getSid()));
+            }
+        }
+        return Collections.unmodifiableSet(NIFTY500_SYMBOLS);
+
+    }
+
     @Override
     public List<LivePriceResponse> getLivePriceResponses(List<String> symbols) throws LiveUpdateException {
         try {
@@ -66,21 +81,6 @@ public class ZerodhaLivePriceService implements LivePriceService {
                     }
             );
         }
-    }
-
-    public static Set<String> getNifty500Symbols() {
-        if (NIFTY500_SYMBOLS.isEmpty()) {
-            String url = UriComponentsBuilder.fromUriString(LIVE_PRICE_ZERODHA_NIFTY500)
-                    .toUriString();
-            ResponseEntity<ZerodhaModels.ZerodhaConstituentsResponse> responseEntity =
-                    new RestTemplate().exchange(url, HttpMethod.GET, new HttpEntity<>(HTTP_HEADERS), ZerodhaModels.ZerodhaConstituentsResponse.class);
-            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                addCookie(responseEntity.getHeaders().get(SET_COOKIE_HEADER));
-                responseEntity.getBody().getData().getConstituents().forEach(data -> NIFTY500_SYMBOLS.add(data.getSid()));
-            }
-        }
-        return Collections.unmodifiableSet(NIFTY500_SYMBOLS);
-
     }
 
 }
