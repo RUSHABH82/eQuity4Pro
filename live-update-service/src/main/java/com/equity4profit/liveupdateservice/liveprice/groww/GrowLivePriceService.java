@@ -16,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.equity4profit.liveupdateservice.liveprice.groww.GrowwModels.ExchangeAggReqMap;
 import static com.equity4profit.liveupdateservice.liveprice.groww.GrowwModels.ExchangeAggResp;
