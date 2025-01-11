@@ -15,13 +15,11 @@ import java.util.List;
 @RequestMapping("details")
 public class LiveDetailsController {
 
-
     private final LiveDetailService liveDetailService;
 
     public LiveDetailsController(LiveDetailService liveDetailService) {
         this.liveDetailService = liveDetailService;
     }
-
 
     @PostMapping
     public List<LiveDetailsResponse> getLivePriceResponses(@RequestBody List<String> symbols) throws LiveUpdateException {
