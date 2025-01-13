@@ -1,4 +1,4 @@
-package com.equity2profit.datahistoryservice.entity;
+package com.equity4profit.datahistoryservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

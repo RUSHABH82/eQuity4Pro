@@ -1,4 +1,4 @@
-package com.equity2profit.datahistoryservice.exception;
+package com.equity4profit.datahistoryservice.exception;
 
 import org.springframework.http.HttpStatus;
 

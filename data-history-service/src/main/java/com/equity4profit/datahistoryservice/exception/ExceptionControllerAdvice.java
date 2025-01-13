@@ -1,8 +1,8 @@
-package com.equity2profit.datahistoryservice.exception;
+package com.equity4profit.datahistoryservice.exception;
 
 
-import com.equity2profit.datahistoryservice.model.ResultStatus;
-import com.equity2profit.datahistoryservice.model.ResultStatusResponse;
+import com.equity4profit.datahistoryservice.model.ResultStatus;
+import com.equity4profit.datahistoryservice.model.ResultStatusResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

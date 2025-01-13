@@ -1,6 +1,6 @@
-package com.equity2profit.datahistoryservice.model;
+package com.equity4profit.datahistoryservice.model;
 
-import com.equity2profit.datahistoryservice.entity.CompanyCategory;
+import com.equity4profit.datahistoryservice.entity.CompanyCategory;
 
 import java.util.List;
 

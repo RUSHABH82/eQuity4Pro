@@ -1,4 +1,4 @@
-package com.equity2profit.datahistoryservice;
+package com.equity4profit.datahistoryservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

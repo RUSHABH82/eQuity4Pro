@@ -1,4 +1,4 @@
-package com.equity2profit.datahistoryservice.model;
+package com.equity4profit.datahistoryservice.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

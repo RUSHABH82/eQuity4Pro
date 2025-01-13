@@ -1,4 +1,4 @@
-package com.equity2profit.datahistoryservice.model.yahoo;
+package com.equity4profit.datahistoryservice.model.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

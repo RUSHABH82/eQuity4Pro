@@ -1,13 +1,13 @@
-package com.equity2profit.datahistoryservice.scheduler;
+package com.equity4profit.datahistoryservice.scheduler;
 
-import com.equity2profit.datahistoryservice.config.DataHistoryConfiguration;
-import com.equity2profit.datahistoryservice.entity.CompanyCategory;
-import com.equity2profit.datahistoryservice.entity.CompanyDetails;
-import com.equity2profit.datahistoryservice.entity.HistoryData;
-import com.equity2profit.datahistoryservice.exception.DataHistoryServiceException;
-import com.equity2profit.datahistoryservice.model.yahoo.YahooHistoryResponseModels;
-import com.equity2profit.datahistoryservice.repository.CompanyDetailsRepository;
-import com.equity2profit.datahistoryservice.repository.HistoryDataRepository;
+import com.equity4profit.datahistoryservice.config.DataHistoryConfiguration;
+import com.equity4profit.datahistoryservice.entity.CompanyCategory;
+import com.equity4profit.datahistoryservice.entity.CompanyDetails;
+import com.equity4profit.datahistoryservice.entity.HistoryData;
+import com.equity4profit.datahistoryservice.exception.DataHistoryServiceException;
+import com.equity4profit.datahistoryservice.model.yahoo.YahooHistoryResponseModels;
+import com.equity4profit.datahistoryservice.repository.CompanyDetailsRepository;
+import com.equity4profit.datahistoryservice.repository.HistoryDataRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
-import static com.equity2profit.datahistoryservice.model.yahoo.YahooHistoryResponseModels.YahooHistoryResponse;
+import static com.equity4profit.datahistoryservice.model.yahoo.YahooHistoryResponseModels.YahooHistoryResponse;
 
 @Component
 @Configuration

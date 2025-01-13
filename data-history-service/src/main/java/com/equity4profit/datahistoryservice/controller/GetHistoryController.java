@@ -1,14 +1,13 @@
-package com.equity2profit.datahistoryservice.controller;
+package com.equity4profit.datahistoryservice.controller;
 
-import com.equity2profit.datahistoryservice.entity.CompanyDetails;
-import com.equity2profit.datahistoryservice.exception.DataHistoryServiceException;
-import com.equity2profit.datahistoryservice.service.CompanyDataService;
-import com.equity2profit.datahistoryservice.service.ICompanyDataService;
+import com.equity4profit.datahistoryservice.entity.CompanyDetails;
+import com.equity4profit.datahistoryservice.exception.DataHistoryServiceException;
+import com.equity4profit.datahistoryservice.service.CompanyDataService;
+import com.equity4profit.datahistoryservice.service.ICompanyDataService;
+import com.equity4profit.datahistoryservice.model.CompanyDataServiceModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.equity2profit.datahistoryservice.model.CompanyDataServiceModel.UpdateCategoryRequest;
 
 
 @RestController
@@ -24,7 +23,7 @@ public class GetHistoryController {
 
 
     @PutMapping("company/category")
-    List<CompanyDetails> updateCategory(@RequestBody List<UpdateCategoryRequest> updateCategoryRequests) throws DataHistoryServiceException {
+    List<CompanyDetails> updateCategory(@RequestBody List<CompanyDataServiceModel.UpdateCategoryRequest> updateCategoryRequests) throws DataHistoryServiceException {
         return companyDataService.updateCategory(updateCategoryRequests);
     }
 

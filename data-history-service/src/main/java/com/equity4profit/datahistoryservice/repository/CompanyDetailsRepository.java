@@ -1,7 +1,7 @@
-package com.equity2profit.datahistoryservice.repository;
+package com.equity4profit.datahistoryservice.repository;
 
-import com.equity2profit.datahistoryservice.entity.CompanyCategory;
-import com.equity2profit.datahistoryservice.entity.CompanyDetails;
+import com.equity4profit.datahistoryservice.entity.CompanyCategory;
+import com.equity4profit.datahistoryservice.entity.CompanyDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;

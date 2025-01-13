@@ -1,8 +1,9 @@
-package com.equity2profit.datahistoryservice.service;
+package com.equity4profit.datahistoryservice.service;
 
-import com.equity2profit.datahistoryservice.entity.CompanyDetails;
-import com.equity2profit.datahistoryservice.exception.DataHistoryServiceException;
-import com.equity2profit.datahistoryservice.repository.CompanyDetailsRepository;
+import com.equity4profit.datahistoryservice.entity.CompanyDetails;
+import com.equity4profit.datahistoryservice.exception.DataHistoryServiceException;
+import com.equity4profit.datahistoryservice.repository.CompanyDetailsRepository;
+import com.equity4profit.datahistoryservice.model.CompanyDataServiceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.equity2profit.datahistoryservice.model.CompanyDataServiceModel.UpdateCategoryRequest;
 
 @Service
 public class CompanyDataService implements ICompanyDataService {
@@ -24,10 +23,10 @@ public class CompanyDataService implements ICompanyDataService {
     }
 
     @Override
-    public List<CompanyDetails> updateCategory(List<UpdateCategoryRequest> updateCategoryRequests) throws DataHistoryServiceException {
+    public List<CompanyDetails> updateCategory(List<CompanyDataServiceModel.UpdateCategoryRequest> updateCategoryRequests) throws DataHistoryServiceException {
         try {
             List<CompanyDetails> companyDetails = new ArrayList<>();
-            for (UpdateCategoryRequest updateCategoryRequest : updateCategoryRequests) {
+            for (CompanyDataServiceModel.UpdateCategoryRequest updateCategoryRequest : updateCategoryRequests) {
                 List<CompanyDetails> companyDetailsByCategory = companyDetailsRepository.findAllBySymbolIsIn(updateCategoryRequest.getCompany());
                 companyDetailsByCategory.forEach(cd -> cd.setCategory(updateCategoryRequest.getCategory()));
                 companyDetails.addAll(companyDetailsRepository.saveAll(companyDetailsByCategory));
