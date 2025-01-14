@@ -1,6 +1,7 @@
 package com.equity4profit.liveupdateservice.contoller;
 
 
+import com.equity4profit.liveupdateservice.LiveDetailMergeService;
 import com.equity4profit.liveupdateservice.exception.LiveUpdateException;
 import com.equity4profit.liveupdateservice.livedetail.LiveDetailService;
 import com.equity4profit.liveupdateservice.livedetail.LiveDetailsResponse;
@@ -15,9 +16,9 @@ import java.util.List;
 @RequestMapping("details")
 public class LiveDetailsController {
 
-    private final LiveDetailService liveDetailService;
+    private final LiveDetailMergeService liveDetailService;
 
-    public LiveDetailsController(LiveDetailService liveDetailService) {
+    public LiveDetailsController(LiveDetailMergeService liveDetailService) {
         this.liveDetailService = liveDetailService;
     }
 

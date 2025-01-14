@@ -9,10 +9,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ZerodhaLivePriceService implements LivePriceService {
 
@@ -59,7 +56,7 @@ public class ZerodhaLivePriceService implements LivePriceService {
         try {
             Set<LivePriceResponse> livePriceResponses = new HashSet<>();
             getLivePrice(livePriceResponses, symbols);
-            return livePriceResponses.stream().toList();
+            return new ArrayList<>(livePriceResponses);
         } catch (Exception e) {
             removeCookie();
             throw new LiveUpdateException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

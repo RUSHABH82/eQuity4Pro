@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.equity4profit.liveupdateservice.liveprice.tickertape.TickerTapeModels.TickerTapeRequest;
 import static com.equity4profit.liveupdateservice.liveprice.tickertape.TickerTapeModels.TickerTapeResponse;
@@ -67,7 +68,7 @@ public class TickerTapeLivePriceService implements LivePriceService {
             return responseEntity.getData().getResults().parallelStream()
                     .map(TickerTapeModels.Results::getStock)
                     .map(stock -> new LivePriceResponse(stock.getInfo().getTicker(), stock.getAdvancedRatios().getLastPrice()))
-                    .toList();
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new LiveUpdateException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
