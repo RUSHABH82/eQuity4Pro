@@ -3,13 +3,14 @@ package com.equity4profit.datahistoryservice.model;
 import com.equity4profit.datahistoryservice.entity.CompanyCategory;
 
 import java.util.List;
+import java.util.Set;
 
 public class CompanyDataServiceModel {
 
-    public static class UpdateCategoryRequest {
+    public static class UpdateCategoryRequest implements Comparable<UpdateCategoryRequest>{
 
         private CompanyCategory category;
-        private List<String> company;
+        private Set<String> company;
 
         public CompanyCategory getCategory() {
             return category;
@@ -19,12 +20,26 @@ public class CompanyDataServiceModel {
             this.category = category;
         }
 
-        public List<String> getCompany() {
+        public Set<String> getCompany() {
             return company;
         }
 
-        public void setCompany(List<String> company) {
+        public void setCompany(Set<String> company) {
             this.company = company;
+        }
+
+        @Override
+        public int compareTo(UpdateCategoryRequest o) {
+            return Integer.compare(getCategoryOrder(this.category), getCategoryOrder(o.category));
+        }
+
+        private int getCategoryOrder(CompanyCategory category) {
+            return switch (category) {
+                case OTHERS -> 0;
+                case S250 -> 1;
+                case S40NEXT -> 2;
+                case S40 -> 3;
+            };
         }
     }
 

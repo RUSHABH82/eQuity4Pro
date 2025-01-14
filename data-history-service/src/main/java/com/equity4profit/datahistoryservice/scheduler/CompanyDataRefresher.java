@@ -1,5 +1,6 @@
 package com.equity4profit.datahistoryservice.scheduler;
 
+import com.equity4profit.datahistoryservice.config.CompanyCategoryConfig;
 import com.equity4profit.datahistoryservice.config.DataHistoryConfiguration;
 import com.equity4profit.datahistoryservice.entity.CompanyCategory;
 import com.equity4profit.datahistoryservice.entity.CompanyDetails;
@@ -28,6 +29,7 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -45,13 +47,17 @@ public class CompanyDataRefresher {
     private static final String YAHOO_GET_HISTORY_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}";
     private final CompanyDetailsRepository companyDetailsRepository;
     private final HistoryDataRepository historyDataRepository;
+    private final CompanyCategoryConfig companyCategoryConfig;
     private final RestTemplate restTemplate = new RestTemplate();
 
     public CompanyDataRefresher(DataHistoryConfiguration dataHistoryConfiguration,
-                                CompanyDetailsRepository companyDetailsRepository, HistoryDataRepository historyDataRepository) {
+                                CompanyDetailsRepository companyDetailsRepository,
+                                HistoryDataRepository historyDataRepository,
+                                CompanyCategoryConfig companyCategoryConfig) {
         this.dataHistoryConfiguration = dataHistoryConfiguration;
         this.companyDetailsRepository = companyDetailsRepository;
         this.historyDataRepository = historyDataRepository;
+        this.companyCategoryConfig = companyCategoryConfig;
     }
 
     public static String getYahooHistoryUrl(String symbol, Long from, Long to) {
@@ -109,6 +115,27 @@ public class CompanyDataRefresher {
     @Async
     @Scheduled(cron = "0 00 16 * * MON-FRI")
     @Scheduled(fixedRate = Integer.MAX_VALUE)
+    @Transactional
+    public void updateCompanyCategory() {
+        try {
+            List<CompanyDetails> companyDetails = new ArrayList<>();
+            Map<String, Set<String>> categoryConfigCategories = companyCategoryConfig.getCategories();
+            categoryConfigCategories.forEach((s, strings) -> {
+                for (CompanyDetails companyDetail : companyDetailsRepository.findAllBySymbolIsIn(strings)) {
+                    companyDetail.setCategory(CompanyCategory.valueOf(s));
+                    companyDetails.add(companyDetail);
+                }
+            });
+            companyDetailsRepository.saveAll(companyDetails);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+
+    @Async
+    @Scheduled(cron = "0 00 16 * * MON-FRI")
+    @Scheduled(fixedRate = Integer.MAX_VALUE)
     public void updateCompanyHistoryPriceIntoDb() {
         for (CompanyDetails companyDetail : companyDetailsRepository.findAllByCategoryIsIn(Arrays.asList(CompanyCategory.S40, CompanyCategory.S250, CompanyCategory.S40NEXT))) {
             try {
@@ -119,6 +146,9 @@ public class CompanyDataRefresher {
                 YahooHistoryResponseModels.Quote quote = yahooHistoryResponse.getChart().getResult().get(0).getIndicators().getQuote().get(0);
                 for (int i = 1; i < timestamps.size(); i++) {
                     HistoryData historyData = createHistoryData(timestamps.get(i), quote, i);
+                    if (historyData.getTimestamp() == null || historyData.getHigh() == null) {
+                        continue;
+                    }
                     historyData.setCompanyDetails(companyDetail);
                     historyDataSet.add(historyData);
                 }
@@ -139,7 +169,7 @@ public class CompanyDataRefresher {
         try {
             Long fromDate = historyDataRepository.getLastRecordedTimestampByCompanyDetails(companyDetail).orElse(DEFAULT_PERIOD_TO_START);
             String url = getYahooHistoryUrl(companyDetail.getSymbol().concat(exchangeSuffix),
-                    fromDate, Long.MAX_VALUE);
+                    fromDate, getPreviousTimeStamp());
             ResponseEntity<YahooHistoryResponse> response = restTemplate.getForEntity(url, YahooHistoryResponse.class);
             if (response.getStatusCode().is2xxSuccessful()) {
                 return Optional.of(response.getBody());
@@ -161,4 +191,13 @@ public class CompanyDataRefresher {
         );
     }
 
+    private static Long getPreviousTimeStamp() {
+        LocalDateTime now = LocalDateTime.now().minusDays(1);
+        LocalTime fixedTime = LocalTime.of(9, 15);
+        LocalDateTime today = LocalDateTime.of(now.toLocalDate(), fixedTime);
+        if (now.isBefore(today)) {
+            today = today.minusDays(1);
+        }
+        return today.atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond();
+    }
 }
