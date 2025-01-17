@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static com.equity4profit.liveupdateservice.liveprice.tickertape.TickerTapeModels.TickerTapeRequest;
 import static com.equity4profit.liveupdateservice.liveprice.tickertape.TickerTapeModels.TickerTapeResponse;
 
-@Service
+//@Service
 public class TickerTapeLivePriceService implements LivePriceService {
 
     private static final String LIVE_PRICE_TICKER_TAPE_POST_URL = "https://api.tickertape.in/screener/query";

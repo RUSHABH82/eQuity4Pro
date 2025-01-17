@@ -11,7 +11,6 @@ public class LiveUpdateServiceApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(LiveUpdateServiceApplication.class);
 
     public static void main(String[] args) {
-        LOGGER.info("APPLICATION-STARTING");
         SpringApplication.run(LiveUpdateServiceApplication.class, args);
     }
 
